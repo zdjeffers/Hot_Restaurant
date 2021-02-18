@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Hot Restaurant | Reservations</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1 class="text-center"><i class="fa fa-fire"></i> Hot Restaurant</h1>
+        <h4 class="text-center">We only have 5 tables! Book your seat before they all are gone!</h4>
+        <hr class="my-4">
+        <p class="lead">
+        <div class="text-center">
+            <a class="btn btn-primary btn-lg" href="./tables.html" role="button">View Tables</a>
+            <a class="btn btn-danger btn-lg" href="./reservation.html" role="button">Make a Reservation</a>
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <form>
+            <div class="mb-3">
+                <label for="reservationName" class="form-label">Name</label>
+                <input type="name" class="form-control" id="reservationName" aria-describedby="name">
+            </div>
+            <div class="mb-3">
+                <label for="reservationNumber" class="form-label">Phone Number</label>
+                <input type="number" class="form-control" id="reservationPhone" aria-describedby="number">
+            </div>
+            <div class="mb-3">
+                <label for="reservationEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="reservationEmail" aria-describedby="email">
+            </div>
+            <div class="mb-3">
+                <label for="reservationID" class="form-label">ID</label>
+                <input type="ID" class="form-control" id="reservationID" aria-describedby="ID">
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        const addBtn = document.getElementById('submit-btn');
+
+        addBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            let resName = document.getElementById('reservationName').value;
+            let resPhone = document.getElementById('reservationPhone').value;
+            let resEmail = document.getElementById('reservationEmail').value;
+            let resID = document.getElementById('reservationID').value;
+
+            let newReservation = {
+                name: resName,
+                phone: parseInt(resPhone),
+                email: resEmail,
+                identification: resID,
+            }
+            console.log(resName)
+            fetch('/reservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newReservation),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('tables.html', data)
+                    alert(`Reservation for ${data.name} added!`)
+                })
+                .catch((error) => {
+                    console.error('Error: ', error);
+                })
+        });
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
